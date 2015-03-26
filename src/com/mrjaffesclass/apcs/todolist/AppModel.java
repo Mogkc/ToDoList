@@ -38,6 +38,8 @@ public class AppModel implements MessageHandler {
     messenger.subscribe("getItem", this);
     messenger.subscribe("saveItem", this);
     messenger.subscribe("deleteItem", this);
+//    messenger.subscribe("sortEarliestFirst", this);
+//    messenger.subscribe("sortEarliestLast", this);
     messenger.subscribe("removeCompletedItems", this);
   }
 
@@ -83,6 +85,19 @@ public class AppModel implements MessageHandler {
         messenger.notify("saved", null, true);
         messenger.notify("items", this.getItems(), true);
         break;
+       
+      //Somebody wants us to sort the items by date
+      //Rearrange the list, save the list and send the updated list
+      /**case "sortEarliestFirst":
+        sortByDate(true);
+        break;
+      
+      case "sortEarliestLast":
+        sortByDate(false);
+        messenger.notify("saved", null, true);
+        messenger.notify("items", this.getItems(), true);
+        break;
+      */
         
       // We've been told to remove all items that have their 'done' flag
       // set.  Do it, then send a confirmation message, then send the
@@ -165,6 +180,7 @@ public class AppModel implements MessageHandler {
     return deleteItem(item.getId());
   }
   
+  
   /**
    * Removes all completed items from the to do list
    */
@@ -185,5 +201,21 @@ public class AppModel implements MessageHandler {
     for (ToDoItem item : newList) {
       toDoList.add(item);
     }
+  }
+  
+  public void sortByDate(boolean earliestFirst) {
+      boolean notSorted;
+      do {
+          notSorted = false;
+          ListIterator<ToDoItem> iterator;
+          iterator = new toDoList.listIterator();
+          for(int j = 0; j < toDoList.size()-1; j++){
+              if(toDoList.get(j).getDate().after(toDoList.get(j+1).getDate()) == earliestFirst) {
+                  //swap to the desired order
+                  toDoList.add(j+1, toDoList.remove(j));
+                  notSorted = true;
+              }
+          }
+      }
   }
 }

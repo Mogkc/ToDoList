@@ -15,6 +15,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
   private final int ID_FIELD = 0;
   private final int DONE_FIELD = 1;
   private final int DESCRIPTION_FIELD = 2;
+  private final int DATE_FIELD = 3;
   
   private final int DONE_COLUMN = 0;
   
@@ -130,7 +131,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     ToDoItem item = new ToDoItem(              
       (int)tableModel.getValueAt(row, ID_FIELD),
       (String)tableModel.getValueAt(row, DESCRIPTION_FIELD),
-      (boolean)tableModel.getValueAt(row, DONE_FIELD)
+      (boolean)tableModel.getValueAt(row, DONE_FIELD),
+      (Date)tableModel.getValueAt(row, DATE_FIELD),
     );
     return item;
   }
@@ -149,6 +151,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
         newItemBtn = new javax.swing.JButton();
         aboutBtn = new javax.swing.JButton();
         removeCompleteItemsBtn = new javax.swing.JButton();
+        sortEarliestBtn = new javax.swing.JButton();
+        sortLastBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,11 +161,11 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
 
             },
             new String [] {
-                "id", "Complete", "Description"
+                "id", "Complete", "Description", "Date"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -198,6 +202,10 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
             }
         });
 
+        sortEarliestBtn.setText("^ Sort");
+
+        sortLastBtn.setText("v Sort");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,7 +214,11 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
                 .addComponent(newItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38)
                 .addComponent(removeCompleteItemsBtn)
-                .addGap(175, 175, 175)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sortEarliestBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sortLastBtn)
+                .addGap(13, 13, 13)
                 .addComponent(aboutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane2)
         );
@@ -217,32 +229,16 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newItemBtn)
                     .addComponent(aboutBtn)
-                    .addComponent(removeCompleteItemsBtn))
+                    .addComponent(removeCompleteItemsBtn)
+                    .addComponent(sortEarliestBtn)
+                    .addComponent(sortLastBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-  private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-    // Get the clicked item data
-    // Get the row number that was clicked in the table
-    // then find the item id of the clicked item
-    int row = jTable1.getSelectedRow(); 
-    int col = jTable1.getSelectedColumn();
-    ToDoItem item = this.createItemFromTableModelRow(row);
-    
-    // If the checkbox column was clicked, then we can just toggle the item's
-    // done field.  If any other column was clicked we should open the editItem
-    // dialog so the item can be edited.
-    if (col == DONE_COLUMN) {
-      toggleDone(item);
-    } else {
-      editItem(item);
-    }
-  }//GEN-LAST:event_jTable1MouseClicked
 
   private void newItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newItemBtnActionPerformed
     ToDoItem item = new ToDoItem(-1, "New to do item", false);
@@ -258,6 +254,24 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     dialog.setVisible(true);
   }//GEN-LAST:event_aboutBtnActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // Get the clicked item data
+        // Get the row number that was clicked in the table
+        // then find the item id of the clicked item
+        int row = jTable1.getSelectedRow();
+        int col = jTable1.getSelectedColumn();
+        ToDoItem item = this.createItemFromTableModelRow(row);
+
+        // If the checkbox column was clicked, then we can just toggle the item's
+        // done field.  If any other column was clicked we should open the editItem
+        // dialog so the item can be edited.
+        if (col == DONE_COLUMN) {
+            toggleDone(item);
+        } else {
+            editItem(item);
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
   /**
    * @param args the command line arguments
    */
@@ -268,5 +282,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton newItemBtn;
     private javax.swing.JButton removeCompleteItemsBtn;
+    private javax.swing.JButton sortEarliestBtn;
+    private javax.swing.JButton sortLastBtn;
     // End of variables declaration//GEN-END:variables
 }
