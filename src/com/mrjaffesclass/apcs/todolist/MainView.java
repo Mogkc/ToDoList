@@ -132,8 +132,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
       item = new ToDoItem(              
               (int)tableModel.getValueAt(row, ID_FIELD),
               (String)tableModel.getValueAt(row, DESCRIPTION_FIELD),
-              (Date)tableModel.getValueAt(row, DATE_FIELD),
-              (boolean)tableModel.getValueAt(row, DONE_FIELD)
+              (boolean)tableModel.getValueAt(row, DONE_FIELD),
+              (Date)tableModel.getValueAt(row, DATE_FIELD)
       );
     return item;
   }
@@ -252,7 +252,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     }// </editor-fold>//GEN-END:initComponents
 
   private void newItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newItemBtnActionPerformed
-    ToDoItem item = new ToDoItem(-1, "New to do item", null, false);
+    ToDoItem item = new ToDoItem(-1, "New to do item", false);
     editItem(item);
   }//GEN-LAST:event_newItemBtnActionPerformed
 

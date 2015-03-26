@@ -90,6 +90,8 @@ public class AppModel implements MessageHandler {
       //Rearrange the list, save the list and send the updated list
       case "sortEarliestFirst":
         sortByDate(true);
+        messenger.notify("saved", null, true);
+        messenger.notify("items", this.getItems(), true);
         break;
       
       case "sortEarliestLast":
@@ -203,12 +205,11 @@ public class AppModel implements MessageHandler {
   }
   
   /**
-   * Sorts the list according to date. If date is null, it goes first
+   * Sorts the list according to date. If date is null, it goes last
    * @param earliestFirst if true, sorts from earliest to latest, 
    * if false sorts the opposite
    */
-  /**
-   * public void sortByDate(boolean earliestFirst) {
+   public void sortByDate(boolean earliestFirst) {
       boolean notSorted;
       int lastItemWithDate = toDoList.size() - 1;
       do {
@@ -217,19 +218,27 @@ public class AppModel implements MessageHandler {
               try{
                 if(toDoList.get(j).getDate().after(toDoList.get(j+1).getDate())
                         == earliestFirst) {
-                  System.out.println(j + "is after" + (j+1));
                   //swap to the desired order
                   toDoList.add(j+1, toDoList.remove(j));
                   notSorted = true;
               } }
-              catch(NullPointerException e) {
-                  //Puts items without a date at the end of the list
-                  //and doesn't try to sort them
-                  toDoList.add(toDoList.remove(j));
-                  lastItemWithDate--; 
+              catch(NullPointerException nullDateInJorJPlusOne) {
+                  try{
+                    //Checks to see if the null is in j or j+1
+                    toDoList.get(j).getDate();
+                    //If the last line doesn't throw an error, the error is in j+1
+                    //Put it to the end of the list, and ignore it for sorting
+                    toDoList.add(lastItemWithDate, toDoList.remove(j+1));
+                    lastItemWithDate--;
+                  }
+                  catch(NullPointerException nullDateInJ) {
+                    //If j threw an exception in our other catch, it's the error
+                    //Put it to the end of the list, and ignore it for sorting
+                    toDoList.add(lastItemWithDate, toDoList.remove(j));
               }
+             }
           }
       } while(notSorted);
   } 
-  */
+  
 }
