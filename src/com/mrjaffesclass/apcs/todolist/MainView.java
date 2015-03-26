@@ -98,6 +98,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
       tableModel.setValueAt(item.getId(), i, ID_FIELD);
       tableModel.setValueAt(item.isDone(), i, DONE_FIELD);
       tableModel.setValueAt(item.getDescription(), i, DESCRIPTION_FIELD);
+      tableModel.setValueAt(item.getDate(), i, DATE_FIELD);
     }
 }
   
@@ -122,18 +123,18 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
   
   /**
    * Creates a ToDoItem from the data in the table model
+   * @param row the row that is to be converted to an item
    */
   private ToDoItem createItemFromTableModelRow(int row) {
     DefaultTableModel tableModel = (DefaultTableModel)jTable1.getModel();
     
-    // Now create a ToDoItem that we can pass to the editing dialog
-    // The done field is toggled when the user clicks the checkbox
-    ToDoItem item = new ToDoItem(              
-      (int)tableModel.getValueAt(row, ID_FIELD),
-      (String)tableModel.getValueAt(row, DESCRIPTION_FIELD),
-      (boolean)tableModel.getValueAt(row, DONE_FIELD),
-      (Date)tableModel.getValueAt(row, DATE_FIELD),
-    );
+    ToDoItem item;
+      item = new ToDoItem(              
+              (int)tableModel.getValueAt(row, ID_FIELD),
+              (String)tableModel.getValueAt(row, DESCRIPTION_FIELD),
+              (Date)tableModel.getValueAt(row, DATE_FIELD),
+              (boolean)tableModel.getValueAt(row, DONE_FIELD)
+      );
     return item;
   }
   
@@ -203,8 +204,18 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
         });
 
         sortEarliestBtn.setText("^ Sort");
+        sortEarliestBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortEarliestBtnActionPerformed(evt);
+            }
+        });
 
         sortLastBtn.setText("v Sort");
+        sortLastBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortLastBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -241,7 +252,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     }// </editor-fold>//GEN-END:initComponents
 
   private void newItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newItemBtnActionPerformed
-    ToDoItem item = new ToDoItem(-1, "New to do item", false);
+    ToDoItem item = new ToDoItem(-1, "New to do item", null, false);
     editItem(item);
   }//GEN-LAST:event_newItemBtnActionPerformed
 
@@ -271,6 +282,16 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
             editItem(item);
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void sortEarliestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortEarliestBtnActionPerformed
+        //Let model know to sort data by earliest to latest
+        messenger.notify("sortEarliestFirst", this);
+    }//GEN-LAST:event_sortEarliestBtnActionPerformed
+
+    private void sortLastBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortLastBtnActionPerformed
+        //Let model know to sort data by latest to earliest
+        messenger.notify("sortEarliestLast", this);
+    }//GEN-LAST:event_sortLastBtnActionPerformed
 
   /**
    * @param args the command line arguments

@@ -38,8 +38,8 @@ public class AppModel implements MessageHandler {
     messenger.subscribe("getItem", this);
     messenger.subscribe("saveItem", this);
     messenger.subscribe("deleteItem", this);
-//    messenger.subscribe("sortEarliestFirst", this);
-//    messenger.subscribe("sortEarliestLast", this);
+    messenger.subscribe("sortEarliestFirst", this);
+    messenger.subscribe("sortEarliestLast", this);
     messenger.subscribe("removeCompletedItems", this);
   }
 
@@ -88,7 +88,7 @@ public class AppModel implements MessageHandler {
        
       //Somebody wants us to sort the items by date
       //Rearrange the list, save the list and send the updated list
-      /**case "sortEarliestFirst":
+      case "sortEarliestFirst":
         sortByDate(true);
         break;
       
@@ -97,7 +97,6 @@ public class AppModel implements MessageHandler {
         messenger.notify("saved", null, true);
         messenger.notify("items", this.getItems(), true);
         break;
-      */
         
       // We've been told to remove all items that have their 'done' flag
       // set.  Do it, then send a confirmation message, then send the
@@ -203,19 +202,34 @@ public class AppModel implements MessageHandler {
     }
   }
   
-  public void sortByDate(boolean earliestFirst) {
+  /**
+   * Sorts the list according to date. If date is null, it goes first
+   * @param earliestFirst if true, sorts from earliest to latest, 
+   * if false sorts the opposite
+   */
+  /**
+   * public void sortByDate(boolean earliestFirst) {
       boolean notSorted;
+      int lastItemWithDate = toDoList.size() - 1;
       do {
           notSorted = false;
-          ListIterator<ToDoItem> iterator;
-          iterator = new toDoList.listIterator();
-          for(int j = 0; j < toDoList.size()-1; j++){
-              if(toDoList.get(j).getDate().after(toDoList.get(j+1).getDate()) == earliestFirst) {
+          for(int j = 0; j < lastItemWithDate; j++){
+              try{
+                if(toDoList.get(j).getDate().after(toDoList.get(j+1).getDate())
+                        == earliestFirst) {
+                  System.out.println(j + "is after" + (j+1));
                   //swap to the desired order
                   toDoList.add(j+1, toDoList.remove(j));
                   notSorted = true;
+              } }
+              catch(NullPointerException e) {
+                  //Puts items without a date at the end of the list
+                  //and doesn't try to sort them
+                  toDoList.add(toDoList.remove(j));
+                  lastItemWithDate--; 
               }
           }
-      }
-  }
+      } while(notSorted);
+  } 
+  */
 }

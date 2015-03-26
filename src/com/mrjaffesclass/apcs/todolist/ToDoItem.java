@@ -38,7 +38,7 @@ public class ToDoItem {
    * Constructor
    * @param _id           ID number of to do item
    * @param _description  Description of to do item
-   * @param _description  Description of to do item
+   * @param _date         Date of to do item
    * @param _done         Done flag
    */
   public ToDoItem(int _id, String _description, Date _date, boolean _done) {
@@ -99,8 +99,8 @@ public class ToDoItem {
    * Sets the ID of the to do item. Can only be called from inside this class
    * @param id ID value to set
    */
-  public void setId(Date date) {
-    this.date = date;
+  public void setId(int id) {
+    this.id = id;
   }
   
   /**
@@ -113,7 +113,7 @@ public class ToDoItem {
   
   /**
    * Sets the ID of the to do item. Can only be called from inside this class
-   * @param id ID value to set
+   * @param date date value to set
    */
   public void setDate(Date date) {
     this.date = date;

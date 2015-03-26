@@ -55,7 +55,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
   private void setFieldValues() {
     descriptionText.setText(item.getDescription());
     completedCheckBox.setSelected(item.isDone());
-    itemDate.setDate(item.date);
+    itemDateFeild.setDate(item.date);
   }
   
   /**
@@ -64,6 +64,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
   private void getValues() {
     item.setDescription(descriptionText.getText());
     item.setDone(completedCheckBox.isSelected());
+    item.setDate(itemDateFeild.getDate());
   }
   
   /**
@@ -102,7 +103,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
         completedCheckBox = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         deleteBtn = new javax.swing.JButton();
-        itemDate = new org.jdesktop.swingx.JXDatePicker();
+        itemDateFeild = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -166,7 +167,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
-                                    .addComponent(itemDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(itemDateFeild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(deleteBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -189,7 +190,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
                     .addComponent(jLabel2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(itemDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(itemDateFeild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelBtn)
@@ -223,7 +224,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
     private javax.swing.JCheckBox completedCheckBox;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextArea descriptionText;
-    private org.jdesktop.swingx.JXDatePicker itemDate;
+    private org.jdesktop.swingx.JXDatePicker itemDateFeild;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
