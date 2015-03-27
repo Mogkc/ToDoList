@@ -156,6 +156,9 @@
       </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXDatePicker" name="itemDateFeild">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemDateFeildActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

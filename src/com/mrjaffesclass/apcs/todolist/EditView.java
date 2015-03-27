@@ -144,6 +144,12 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
             }
         });
 
+        itemDateFeild.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemDateFeildActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,6 +221,10 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
   private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
     itemAction("delete");
   }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void itemDateFeildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDateFeildActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemDateFeildActionPerformed
 
   /**
    * @param args the command line arguments

@@ -43,7 +43,7 @@ public class ToDoItem {
     description = _description;
     id = _id;
     date = null;
-    done = false;     // Default to not completed
+    done = _done;     // Default to not completed
   }
 
   /**

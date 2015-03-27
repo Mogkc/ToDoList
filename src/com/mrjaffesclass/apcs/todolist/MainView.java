@@ -48,6 +48,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     jTable1.getColumnModel().getColumn(DONE_FIELD).setPreferredWidth(DONE_FIELD_WIDTH);  // Set width of checkbox column
     jTable1.getColumnModel().getColumn(DESCRIPTION_FIELD).setPreferredWidth(DESCRIPTION_FIELD_WIDTH);  // Set width of checkbox column
     jTable1.removeColumn(jTable1.getColumnModel().getColumn(ID_FIELD));  // Remove the ID column from the table
+    jTable1.removeColumn(jTable1.getColumnModel().getColumn(DATE_FIELD));  // Remove the Object Date column from the table
+    //Date is displayed in the correct format in a different column
     jTable1.setRowHeight(ROW_HEIGHT);
   }
   
@@ -104,6 +106,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
       tableModel.setValueAt(item.isDone(), i, DONE_FIELD);
       tableModel.setValueAt(item.getDescription(), i, DESCRIPTION_FIELD);
       tableModel.setValueAt(formatDate(item.getDate()), i, DATE_FIELD);
+      tableModel.setValueAt(item.getDate(), i, DATE_FIELD+1);
     }
 }
   
@@ -170,24 +173,9 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
               (int)tableModel.getValueAt(row, ID_FIELD),
               (String)tableModel.getValueAt(row, DESCRIPTION_FIELD),
               (boolean)tableModel.getValueAt(row, DONE_FIELD),
-              formatStringToDate((String) tableModel.getValueAt(row, DATE_FIELD))
+              (Date)tableModel.getValueAt(row, DATE_FIELD+1)
       );
     return item;
-  }
-  
-  /**
-   * Takes the string formatted date and returns the associated date
-   * @param stringDate the way the date is displayed
-   * @return the date of the task
-   */
-  private Date formatStringToDate(String stringDate){
-    try{
-        DateFormat format = new SimpleDateFormat("ddd mm/dd", Locale.ENGLISH);
-        Date date = format.parse(stringDate);
-        return date;
-    } catch (ParseException noDate) {
-         return null;
-      }
   }
   
   /**
@@ -214,15 +202,22 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
 
             },
             new String [] {
-                "id", "Complete", "Description", "Date"
+                "id", "Complete", "Description", "Date", "DateObj"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTable1.getTableHeader().setResizingAllowed(false);
