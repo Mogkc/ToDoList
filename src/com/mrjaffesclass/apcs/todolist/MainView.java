@@ -1,8 +1,13 @@
 package com.mrjaffesclass.apcs.todolist;
 
-import java.util.*;
-import javax.swing.table.*;
 import com.mrjaffesclass.apcs.messenger.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.*;
 /**
  * To do list main view
  * @author Roger Jaffe
@@ -98,9 +103,41 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
       tableModel.setValueAt(item.getId(), i, ID_FIELD);
       tableModel.setValueAt(item.isDone(), i, DONE_FIELD);
       tableModel.setValueAt(item.getDescription(), i, DESCRIPTION_FIELD);
-      tableModel.setValueAt(item.getDate(), i, DATE_FIELD);
+      tableModel.setValueAt(formatDate(item.getDate()), i, DATE_FIELD);
     }
 }
+  
+  /**
+   * Puts the date in the form to be displayed
+   * @param _date the date to be displayed
+   * @return A string that tells the date
+   */
+  private String formatDate(Date _date){
+      try{
+        String dayOfWeek = _date.toString().substring(0,4);
+        String monthName = _date.toString().substring(4,7);
+        String dayOfMonth = _date.toString().substring(8,10);
+        String month = null;
+        switch(monthName){
+          case "Jan": month = "01"; break;
+          case "Feb": month = "02"; break;
+          case "Mar": month = "03"; break;
+          case "Apr": month = "04"; break;
+          case "May": month = "05"; break;
+          case "Jun": month = "06"; break;
+          case "Jul": month = "07"; break;
+          case "Aug": month = "08"; break;
+          case "Sep": month = "09"; break;
+          case "Oct": month = "10"; break;
+          case "Nov": month = "11"; break;
+          case "Dec": month = "12"; break;
+        }
+        String formattedDate = dayOfWeek + month + "/" + dayOfMonth;
+        return formattedDate;
+      } catch(NullPointerException noDate){
+        return null;
+      }
+  }
   
   /**
    * Light up the edit item dialog
@@ -133,9 +170,24 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
               (int)tableModel.getValueAt(row, ID_FIELD),
               (String)tableModel.getValueAt(row, DESCRIPTION_FIELD),
               (boolean)tableModel.getValueAt(row, DONE_FIELD),
-              (Date)tableModel.getValueAt(row, DATE_FIELD)
+              formatStringToDate((String) tableModel.getValueAt(row, DATE_FIELD))
       );
     return item;
+  }
+  
+  /**
+   * Takes the string formatted date and returns the associated date
+   * @param stringDate the way the date is displayed
+   * @return the date of the task
+   */
+  private Date formatStringToDate(String stringDate){
+    try{
+        DateFormat format = new SimpleDateFormat("ddd mm/dd", Locale.ENGLISH);
+        Date date = format.parse(stringDate);
+        return date;
+    } catch (ParseException noDate) {
+         return null;
+      }
   }
   
   /**
