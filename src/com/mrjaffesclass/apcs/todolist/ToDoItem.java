@@ -61,6 +61,19 @@ public class ToDoItem {
   }
 
   /**
+   * Constructor
+   * @param _id           ID number of to do item
+   * @param _description  Description of to do item
+   * @param _date         Date of to do item
+   */
+  public ToDoItem(int _id, String _description, Date _date) {
+    description = _description;
+    id = _id;
+    date = _date;
+    done = false;     // Default to not completed
+  }
+  
+  /**
    * Get the to do item description
    * @return The description of to do item
    */
