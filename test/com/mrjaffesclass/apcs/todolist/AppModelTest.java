@@ -164,17 +164,17 @@ public class AppModelTest {
       model.putItem(middleItem);
       model.putItem(middleItem);
       model.sortByDate(true);
-      assertEquals(earliestItem, testArrayList.remove(0));
-      assertEquals(middleItem, testArrayList.remove(0));
-      assertEquals(latestItem, testArrayList.remove(0));
+      assertEquals("earliest is first", earliestItem, testArrayList.remove(0));
+      assertEquals("middle is in middle", middleItem, testArrayList.remove(0));
+      assertEquals("latest is last", latestItem, testArrayList.remove(0));
       //Now test sort Earliest Last
       model.putItem(earliestItem);
       model.putItem(middleItem);
       model.putItem(middleItem);
       model.sortByDate(false);
-      assertEquals(latestItem, testArrayList.remove(0));
-      assertEquals(middleItem, testArrayList.remove(0));
-      assertEquals(earliestItem, testArrayList.remove(0));
+      assertEquals("latest is first", latestItem, testArrayList.remove(0));
+      assertEquals("middle is middle", middleItem, testArrayList.remove(0));
+      assertEquals("earliest is last", earliestItem, testArrayList.remove(0));
   }
   
   /**

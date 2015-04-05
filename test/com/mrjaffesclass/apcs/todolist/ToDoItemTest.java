@@ -1,5 +1,6 @@
 package com.mrjaffesclass.apcs.todolist;
 
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,6 +55,30 @@ public class ToDoItemTest {
     assertEquals("getDescription", "Test description 2", item.getDescription());
     assertEquals("getId", -1, item.getId());
     assertTrue("getDone", item.isDone());
+  }
+  
+  /**
+   * Test of third constructor
+   */
+  @Test
+  public void testToDoItem3() {
+    ToDoItem item = new ToDoItem(-1, "Test description 2", true, new Date(1301986800000L));
+    assertEquals("getDescription", "Test description 2", item.getDescription());
+    assertEquals("getId", -1, item.getId());
+    assertTrue("getDone", item.isDone());
+    assertEquals("getDate", new Date(1301986800000L), item.getDate());
+  }
+  
+  /**
+   * Test of fourth constructor
+   */
+  @Test
+  public void testToDoItem4() {
+    ToDoItem item = new ToDoItem(-1, "Test description 2", new Date(1301986800000L));
+    assertEquals("getDescription", "Test description 2", item.getDescription());
+    assertEquals("getId", -1, item.getId());
+    assertFalse("getDone", item.isDone());
+    assertEquals("getDate", new Date(1301986800000L), item.getDate());
   }
 
   /**
@@ -115,6 +140,25 @@ public class ToDoItemTest {
     assertFalse("setDone set done to false", item.isDone());
     item.toggleDone();
     assertTrue("setDone set done to true", item.isDone());
+  }
+  
+  /**
+   * Test of getDate method
+   */
+  @Test
+  public void testGetDate() {
+    ToDoItem item = new ToDoItem(2, "Test description", true, new Date(1301986800000L));
+    assertEquals("The date is stored correctly", new Date(1301986800000L), item.getDate());
+  }
+  
+  /**
+   * Test of setDate method
+   */
+  @Test
+  public void testSetDate() {
+    ToDoItem item = new ToDoItem(2, "Test description", true);
+    item.setDate(new Date(1301986800000L));
+    assertEquals("setDate added the date", new Date(1301986800000L), item.getDate());
   }
 
 }
