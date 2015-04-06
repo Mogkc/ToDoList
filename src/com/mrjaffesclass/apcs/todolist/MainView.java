@@ -26,6 +26,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
   
   private final int DONE_FIELD_WIDTH = 65;
   private final int DESCRIPTION_FIELD_WIDTH = 475;
+  private final int DATE_FIELD_WIDTH = 110;
   private final int ROW_HEIGHT = 25;
   
   private final int X_POSITION = 100;
@@ -46,7 +47,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     // Make adjustments to the column widths to suit our needs
     // Remove the ID column and set the row height
     jTable1.getColumnModel().getColumn(DONE_FIELD).setPreferredWidth(DONE_FIELD_WIDTH);  // Set width of checkbox column
-    jTable1.getColumnModel().getColumn(DESCRIPTION_FIELD).setPreferredWidth(DESCRIPTION_FIELD_WIDTH);  // Set width of checkbox column
+    jTable1.getColumnModel().getColumn(DESCRIPTION_FIELD).setPreferredWidth(DESCRIPTION_FIELD_WIDTH);  // Set width of description column
+    jTable1.getColumnModel().getColumn(DATE_FIELD).setPreferredWidth(DATE_FIELD_WIDTH);  // Set width of date display column
     jTable1.removeColumn(jTable1.getColumnModel().getColumn(ID_FIELD));  // Remove the ID column from the table
     jTable1.removeColumn(jTable1.getColumnModel().getColumn(DATE_FIELD));  // Remove the Object Date column from the table
     //Date is displayed in the correct format in a different column
@@ -121,6 +123,12 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
         String monthName = _date.toString().substring(4,7);
         String dayOfMonth = _date.toString().substring(8,10);
         String month = null;
+        String tense = null;
+        if(_date.before(new Date())){
+            tense = " Past";
+        } else {
+            tense = "";
+        }
         switch(monthName){
           case "Jan": month = "01"; break;
           case "Feb": month = "02"; break;
@@ -135,7 +143,7 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
           case "Nov": month = "11"; break;
           case "Dec": month = "12"; break;
         }
-        String formattedDate = dayOfWeek + month + "/" + dayOfMonth;
+        String formattedDate = dayOfWeek + month + "/" + dayOfMonth + tense;
         return formattedDate;
       } catch(NullPointerException noDate){
         return null;
